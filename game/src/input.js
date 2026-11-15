@@ -7,6 +7,15 @@ export function createInput(domElement, onLockChange) {
     locked: false,
   };
 
+  const mouseDelta = { x: 0, y: 0 };
+  const buttons = {
+    has(btn) {
+      if (btn === 0) return state.firing;
+      if (btn === 2) return state.altFiring;
+      return false;
+    }
+  };
+
   let accumulatedDx = 0;
   let accumulatedDy = 0;
 
@@ -39,20 +48,30 @@ export function createInput(domElement, onLockChange) {
       state.firing = false;
       state.altFiring = false;
       state.keys.clear();
+      mouseDelta.x = 0;
+      mouseDelta.y = 0;
     }
     if (onLockChange) onLockChange(locked);
   });
 
   domElement.addEventListener('mousemove', (e) => {
     if (!state.locked) return;
-    accumulatedDx += e.movementX || e.mozMovementX || e.webkitMovementX || 0;
-    accumulatedDy += e.movementY || e.mozMovementY || e.webkitMovementY || 0;
+    const dx = e.movementX || e.mozMovementX || e.webkitMovementX || 0;
+    const dy = e.movementY || e.mozMovementY || e.webkitMovementY || 0;
+    mouseDelta.x += dx;
+    mouseDelta.y += dy;
+    accumulatedDx += dx;
+    accumulatedDy += dy;
   });
 
   domElement.addEventListener('contextmenu', (e) => e.preventDefault());
 
   return {
     state,
+    keys: state.keys,
+    get isLocked() { return state.locked; },
+    mouseDelta,
+    buttons,
     requestLock() {
       domElement.requestPointerLock();
     },

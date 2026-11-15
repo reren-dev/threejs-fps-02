@@ -1,0 +1,17 @@
+export const PALETTE = {
+  canvas: '#14161a',
+  surface: '#1e2228',
+  hairline: '#2c323a',
+  ink: '#e9e6df',
+  muted: '#98a0a8',
+  accent: '#f0a830',
+  ct: '#3a78d0',
+  t: '#d05a3a',
+  concrete: 0x2c323a,
+  wall: 0x1e2228,
+  crate: 0x3d4652,
+  metal: 0x5a6473,
+  floor: 0x181b20,
+  siteA: 0x3a78d0,
+  siteB: 0xd05a3a,
+};
